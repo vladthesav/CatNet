@@ -1,5 +1,7 @@
 FROM jazzdd/alpine-flask
 
+RUN pip install requests
+
 WORKDIR /app
 
 COPY . /app
