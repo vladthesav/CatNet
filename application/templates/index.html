@@ -3,34 +3,54 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type=text/javascript>
+            function file_to_img_element(img_data) {
+              //display uploaded image
+
+              //INPUT 
+              //cat pic as js File  object 
+
+              //output 
+              //HTML img element with uploaded file
+              file_url = URL.createObjectURL(img_data);
+              var img = document.createElement("IMG");
+              img.src = file_url;
+              img.class = "uploaded-img";
+              return img;
+            }
+    </script>
+    <script type=text/javascript>
             $(function() {
-              $('a#test').on('click', function(e) {
+              img_container = $("div.img-container");
+              $('a#predict').on('click', function(e) {
                 e.preventDefault()
                 
-                console.log($(this));
-
                 file_list = $("input.custom-file-input").prop("files");
-                console.log(file_list);
 
-                //if no files stop here, to hell with nested if statements
+                //if no files uploaded, stop here
                 if(file_list.length==0) return; 
-                
+
                 //get file 
                 file = file_list.item(0);
-                
-                var file_data = new FormData(file_list);
-                //file_data.append('file', file);
 
-                console.log(file_data);
-                $.getJSON('/predict',
-                  {method: 'POST',
-                  body: file_data},
-                    function(data) {
-                    //do nothing
-                    });
+                //display uploaded image
+                img_container.html(file_to_img_element(file));
+                
+                file_data = new FormData();
+                file_data.append('file', file);
+                
+                //send data to cat breed prediction api
+                $.ajax({
+                  type: 'POST',
+                  url: '/predict',
+                  data: file_data,
+                  processData: false,
+                  contentType: false
+                }).done(function(data) {
+                    console.log(data);
+                });
                 
     
-                return false;
+                //return;
               });
             });
     </script>
@@ -38,31 +58,27 @@
   <style>
   
   </style>
-<h1>MoldAI</h1>
+<h1>CatNet</h1>
 
 
 <div class="container">
-  <div class="row">
-    <div class="col">
 
       <h3>Upload an image</h3>
       <hr>
+      <div class="img-container"></div>
 
       <form action="/" method="POST" enctype="multipart/form-data">
 
         <div class="form-group">
           <div class="custom-file">
             <input type="file" class="custom-file-input" name="image" id="image">
-            <label class="custom-file-label" for="image">Select image...</label>
           </div>
         </div>
 
-        <a href=# id=test><button class='btn btn-default'>Upload</button></a>
+        <a href=# id=predict><button class='btn btn-default'>Predict</button></a>
 
       </form>
 
-    </div>
-  </div>
 </div>
 
 

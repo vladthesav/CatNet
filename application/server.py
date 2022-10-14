@@ -1,6 +1,6 @@
 
 from flask import Flask, jsonify,request, render_template
-from ml_pipeline import predict_cat_breed
+#from ml_pipeline import predict_cat_breed
 from PIL import Image
 
 app = Flask(__name__)
@@ -19,13 +19,12 @@ def predict():
 
     image = Image.open(image_data)
 
-
-    # model does its thing
-    out = predict_cat_breed(image)
+    return jsonify([1,2,3])
+    #predict cat breed
+    #out = predict_cat_breed(image)
 
     # send json back
     return jsonify(out)
 
-
 if __name__ == '__main__':
-    app.run(port=3500,host='0.0.0.0')
+    app.run(debug=True, port=3500,host='0.0.0.0')
