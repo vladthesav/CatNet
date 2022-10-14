@@ -23,7 +23,7 @@ variable "vpc_dns_hostnames" {
 variable "availability_zone" {
   description = "A list of allowed availability zones."
   type        = list(any)
-  default     = ["us-east-1a", "us-east-1c"]
+  default     = ["us-east-2a", "us-east-2c"]
 }
 
 # A boolean flag to map the public IP on launch for public subnets.  Defaults true.
