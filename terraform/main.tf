@@ -371,10 +371,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 [
   {
     "name": "demo-app",
-    "cpu": 10,
+    "cpu": 255,
     "image": "${var.ecs_image_url}",
     "essential": true,
-    "memory": 300,
+    "memory": 255,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -580,16 +580,4 @@ resource "aws_cloudwatch_metric_alarm" "ecs_infra_cpu_alarm_high" {
   alarm_actions = [aws_autoscaling_policy.ecs_infra_scale_out_policy.arn]
 }
 
-# Create a DynamoDB table.
-resource "aws_dynamodb_table" "music_table" {
-  name           = var.dynamodb_table_name
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "artist"
 
-  attribute {
-    name = "artist"
-    type = "S"
-  }
-}

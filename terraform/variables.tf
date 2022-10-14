@@ -79,7 +79,7 @@ variable "maximum_capacity" {
 variable "instance_type" {
   description = "EC2 instance type for ECS launch configuration."
   type        = string
-  default     = "m5.large"
+  default     = "t2.medium"
 }
 
 # This variables defines the ECS service name.
@@ -93,11 +93,4 @@ variable "service_name" {
 variable "ecs_image_url" {
   description = "The desired ECR image URL."
   type        = string
-}
-
-# This variable defines the name for the DynamoDB table used by the container app.
-variable "dynamodb_table_name" {
-  description = "The desired DynamoDB table name."
-  type        = string
-  default     = "musicTable"
 }
