@@ -1,6 +1,6 @@
 
 from flask import Flask, jsonify,request, render_template
-#from ml_pipeline import predict_cat_breed
+from ml_pipeline import predict_cat_breed
 from PIL import Image
 
 app = Flask(__name__)
@@ -16,12 +16,10 @@ def predict():
     # get image data
     image_data = request.files['file']
     #image = Image.open(image_data).convert("RGB")
-
     image = Image.open(image_data)
 
-    return jsonify([1,2,3])
     #predict cat breed
-    #out = predict_cat_breed(image)
+    out = predict_cat_breed(image)
 
     # send json back
     return jsonify(out)

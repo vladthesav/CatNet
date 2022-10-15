@@ -68,7 +68,7 @@ def predict_cat_breed(image, net=net, tfms =tfms, class_names = _cat_breed_list)
     preds = sorted(preds, key = lambda x: x[1], reverse = True)
 
     #turn percents into strings so we can serialize as json 
-    preds_serializable = [(cname, str(conf)[:5]) for cname, conf in preds]
+    preds_serializable = [{"class":cname, "confidence":str(conf)[:5]} for cname, conf in preds]
     return preds_serializable
 
 
