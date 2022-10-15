@@ -2,6 +2,7 @@
 from flask import Flask, jsonify,request, render_template
 from ml_pipeline import predict_cat_breed
 from PIL import Image
+import os
 
 app = Flask(__name__)
 
@@ -25,4 +26,10 @@ def predict():
     return jsonify(out)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3500,host='0.0.0.0')
+    #get configs from environment vars 
+    env_vars = os.environ 
+
+    #basically don't run in debug mode if in container - we set this env variable when building it
+    debug = False if "container" in env_vars else True
+    print("debug = ",debug)
+    app.run(debug=debug, port=3500,host='0.0.0.0')
