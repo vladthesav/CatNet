@@ -29,8 +29,14 @@
               //HTML img element with uploaded file
               file_url = URL.createObjectURL(img_data);
               var img = document.createElement("IMG");
+
+              img.setAttribute(
+                'style',
+                'height: 400px; width: 400px;',
+              );
+
               img.src = file_url;
-              img.class = "uploaded-img";
+              //img.class = "uploaded-img";
               return img;
             }
 
@@ -79,14 +85,17 @@
               //preds = predictions as json 
               //container = html element we want to put predictions in 
 
+              pred_list = "";
               for(i=0;i<preds.length; i++){
                 pred = preds[i]; 
                 pred_class = pred["class"]; 
                 pred_conf = pred["confidence"]; 
 
-                container.append(`<p class='\prediction'\> ${pred_class} : ${pred_conf}%</p>`)
+                //container.append(`<p class='\prediction'\> ${pred_class} : ${pred_conf}%</p>`)
+                pred_list += `<p class='\prediction'\> ${pred_class} : ${pred_conf}%</p>`;
               }
         
+              container.html(pred_list);
             }
     </script>
     <script type=text/javascript>
@@ -132,9 +141,9 @@
 
 <div class="container">
 
-      <h3>Upload an image</h3>
-      <hr>
-      <div class="img-container"></div>
+   
+   
+      <div class="img-container"><p>upload image</p></div>
 
       <form action="/" method="POST" enctype="multipart/form-data">
 
