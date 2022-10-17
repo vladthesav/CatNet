@@ -14,4 +14,7 @@ COPY . /app
 
 EXPOSE 3500
 
+#set this env variable so programs know it's running in a container
+ENV container=True 
+
 CMD ["python3","server.py"]

@@ -3,34 +3,132 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type=text/javascript>
+            function get_form_img() {
+              //get image data from form 
+
+              //OUTPUT 
+              //cat pic as js File object
+
+              file_list = $("input.custom-file-input").prop("files");
+
+              //if no files uploaded, return null
+              if(file_list.length==0) return null; 
+
+              //get file 
+              file = file_list.item(0);
+              return file;
+
+            }
+            function file_to_img_element(img_data) {
+              //display uploaded image
+
+              //INPUT 
+              //cat pic as js File  object 
+
+              //output 
+              //HTML img element with uploaded file
+              file_url = URL.createObjectURL(img_data);
+              var img = document.createElement("IMG");
+
+              img.setAttribute(
+                'style',
+                'height: 400px; width: 400px;',
+              );
+
+              img.src = file_url;
+              //img.class = "uploaded-img";
+              return img;
+            }
+
+            function predict(img_data){
+              //send image to ML api for cat breed prediction 
+
+              //INPUT 
+              //cat pic as jd File object 
+
+              //OUTPUT 
+              //model prediction as json 
+              
+              prediction = null;
+
+              //pack img data into form data
+              file_data = new FormData();
+              file_data.append('file', file);
+                
+              //send data to cat breed prediction api
+              $.ajax({
+                  type: 'POST',
+                  url: '/predict',
+                  data: file_data,
+                  processData: false,
+                  contentType: false,
+                  async: false, 
+                  success: function (result) {
+                                            //if api call fails, log error to console and stop here
+                                            if (result.isOk == false) {
+                                              console.log("api error: ",result.message);
+                                              return; 
+                                            };
+                                            
+                                            //otherwise set output to result
+                                            prediction =  result;
+                                            }
+              });
+
+            return prediction;
+            }
+
+            function display_predictions(preds, container){
+              //parse predictions from API and display 
+
+              //INPUTS 
+              //preds = predictions as json 
+              //container = html element we want to put predictions in 
+
+              pred_list = "";
+              for(i=0;i<preds.length; i++){
+                pred = preds[i]; 
+                pred_class = pred["class"]; 
+                pred_conf = pred["confidence"]; 
+
+                //container.append(`<p class='\prediction'\> ${pred_class} : ${pred_conf}%</p>`)
+                pred_list += `<p class='\prediction'\> ${pred_class} : ${pred_conf}%</p>`;
+              }
+        
+              container.html(pred_list);
+            }
+    </script>
+    <script type=text/javascript>
             $(function() {
-              $('a#test').on('click', function(e) {
+              //this is where we display uploaded pics
+              img_container = $("div.img-container");
+              
+              //this is where we display predictions 
+              prediction_container = $("div.model-predictions");
+
+              //display whatever user uploads
+              $("input.custom-file-input").change(function(){
+                  //get file 
+                  file = get_form_img();
+
+                  //display uploaded image
+                  img_container.html(file_to_img_element(file));
+                });
+
+              //predict uploaded cat pic
+              $('a#predict').on('click', function(e) {
                 e.preventDefault()
-                
-                console.log($(this));
 
-                file_list = $("input.custom-file-input").prop("files");
-                console.log(file_list);
-
-                //if no files stop here, to hell with nested if statements
-                if(file_list.length==0) return; 
-                
                 //get file 
-                file = file_list.item(0);
+                file = get_form_img();
                 
-                var file_data = new FormData(file_list);
-                //file_data.append('file', file);
-
-                console.log(file_data);
-                $.getJSON('/predict',
-                  {method: 'POST',
-                  body: file_data},
-                    function(data) {
-                    //do nothing
-                    });
+                //predict cat breed
+                model_output = predict(file);
+                console.log("ml api output: ",model_output);
                 
+                //display predictions
+                display_predictions(model_output, prediction_container);
     
-                return false;
               });
             });
     </script>
@@ -38,31 +136,29 @@
   <style>
   
   </style>
-<h1>MoldAI</h1>
+<h1>CatNet</h1>
 
 
 <div class="container">
-  <div class="row">
-    <div class="col">
 
-      <h3>Upload an image</h3>
-      <hr>
+   
+   
+      <div class="img-container"><p>upload image</p></div>
 
       <form action="/" method="POST" enctype="multipart/form-data">
 
         <div class="form-group">
           <div class="custom-file">
             <input type="file" class="custom-file-input" name="image" id="image">
-            <label class="custom-file-label" for="image">Select image...</label>
           </div>
         </div>
 
-        <a href=# id=test><button class='btn btn-default'>Upload</button></a>
+        <a href=# id=predict><button class='btn btn-default'>Predict</button></a>
 
       </form>
 
-    </div>
-  </div>
+      <div class="model-predictions"></div>
+
 </div>
 
 
