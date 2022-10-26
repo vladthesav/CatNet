@@ -59,7 +59,7 @@ def predict_cat_breed(image, net=net, tfms =tfms, class_names = _cat_breed_list)
     y_hat = y_hat[0].numpy()
 
     #apply softmax because people like to see percents 
-    y_hat = softmax(y_hat)*100
+    y_hat = softmax(y_hat)
 
     #turn this into list of tuples containing class name 
     preds = [(cname, conf) for cname, conf in zip(class_names, y_hat)]
@@ -68,7 +68,7 @@ def predict_cat_breed(image, net=net, tfms =tfms, class_names = _cat_breed_list)
     preds = sorted(preds, key = lambda x: x[1], reverse = True)
 
     #turn percents into strings so we can serialize as json 
-    preds_serializable = [{"class":cname, "confidence":str(conf)[:5]} for cname, conf in preds]
+    preds_serializable = [{"class":cname, "confidence":"{0:.3%}".format(conf)} for cname, conf in preds]
     
     return preds_serializable
 

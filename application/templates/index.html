@@ -91,8 +91,7 @@
                 pred_class = pred["class"]; 
                 pred_conf = pred["confidence"]; 
 
-                //container.append(`<p class='\prediction'\> ${pred_class} : ${pred_conf}%</p>`)
-                pred_list += `<p class='\prediction'\> ${pred_class} : ${pred_conf}%</p>`;
+                pred_list += `<p class='\prediction'\> ${pred_class} : ${pred_conf}</p>`;
               }
         
               container.html(pred_list);
