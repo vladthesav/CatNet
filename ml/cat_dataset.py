@@ -92,9 +92,9 @@ def get_image_dataloaders(train_df, valid_df, batch_size=64, num_workers=0):
 
   #get dataloaders
 
-  train_loader = DataLoader(train, batch_size=bs,
+  train_loader = DataLoader(train, batch_size=batch_size,
                         shuffle=True, num_workers=num_workers)
-  valid_loader = DataLoader(valid, batch_size=bs,
+  valid_loader = DataLoader(valid, batch_size=batch_size,
                         shuffle=False, num_workers=num_workers)
   
   return train_loader, valid_loader 
