@@ -88,7 +88,7 @@ def get_image_dataloaders(train_df, valid_df, batch_size=64, num_workers=0):
 
   #get train and valid datsets
   train = ImageDataset(df = train_df, split="train")
-  valid = ImageDataset(df = val_df)
+  valid = ImageDataset(df = valid_df)
 
   #get dataloaders
 
@@ -100,4 +100,3 @@ def get_image_dataloaders(train_df, valid_df, batch_size=64, num_workers=0):
   return train_loader, valid_loader 
 
 
-  
