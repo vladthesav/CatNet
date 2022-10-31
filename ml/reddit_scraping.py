@@ -3,6 +3,14 @@ import requests
 from io import BytesIO
 import praw
 
+
+def get_img(url):
+  res = requests.get(url)
+  if res.status_code!=200: return None 
+  img = Image.open(BytesIO(res.content)).convert("RGB")
+  return img 
+
+
 def parse_gallery(gallery, max_h=900, max_w=900):
   #parse submission object for gallery
   #to get list of urls 
@@ -49,8 +57,11 @@ def get_img_urls_from_subreddit(subreddit, client=None, limit=50000):
       img_urls.append(url)
     elif "/gallery/" in url:
       for u in parse_gallery(submission):
-        img_urls.append(u)
-
+        try:
+            img_urls.append(u)
+        except Exception as e: 
+            print(e)
+            
   return img_urls
 
 
