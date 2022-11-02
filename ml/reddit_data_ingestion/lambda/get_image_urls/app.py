@@ -31,13 +31,16 @@ def handler(event, context):
     for class_name, subreddit in cat_breed_subreddits:
         #get urls 
         urls=get_img_urls_from_subreddit(subreddit, client=reddit_read_only, limit=limit_per_subreddit) 
+
+        #add url and cat breed type to output file
         for url in urls: cat_breed_urls += "{} {}\n".format(url, class_name)
 
 
+    output_s3_path = 'reddit/cat_pic_urls_max_{}_per_subreddit.txt'.format(limit) 
 
     #upload cat pic urls to s3
-    s3.put_object(Body=cat_breed_urls, Bucket='cat-breed-data', Key='reddit/cat_pic_urls_max_{}_per_subreddit.txt'.format(limit))
+    s3.put_object(Body=cat_breed_urls, Bucket='cat-breed-data', Key=output_s3_path)
 
     
 
-    return 'Hello from AWS Lambda using Python' + sys.version + '!'        
+    return "cat pic urls saved to : " + output_s3_path      
