@@ -11,10 +11,11 @@ def handler(event, context):
     client_secret = event["client_secret"]
 
     #make praw client
-    reddit_read_only = praw.Reddit(client_id=client_id,  
-                               client_secret=client_secret,
-                               user_agent = "idk")
+    reddit_read_only = praw.Reddit(client_id=client_id, client_secret=client_secret,user_agent = "idk")
 
+    #testing api 
+    s=get_img_urls_from_subreddit("mainecoons", client=reddit_read_only, limit=33) 
+    print(s)
     
 
     return 'Hello from AWS Lambda using Python' + sys.version + '!'        
