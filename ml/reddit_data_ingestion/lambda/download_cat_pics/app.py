@@ -16,7 +16,7 @@ def handler(event, context):
     cat_pic_urls = event["cat_pic_urls"]
 
     # Dget list of cat pic urls
-    s3.download_file('cat-breed-data', 'cat-breed-data/'+cat_pic_urls, 'cat_pics.txt')
+    s3.download_file('cat-breed-data',cat_pic_urls, 'cat_pics.txt')
     cat_pics = open('cat_pics.txt').read()
 
     
