@@ -10,6 +10,7 @@ def handler(event, context):
     client_id = event["client_id"]
     client_secret = event["client_secret"]
 
+    #make praw client
     reddit_read_only = praw.Reddit(client_id=client_id,  
                                client_secret=client_secret,
                                user_agent = "idk")
