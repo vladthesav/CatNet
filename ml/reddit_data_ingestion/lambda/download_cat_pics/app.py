@@ -24,6 +24,10 @@ def upload_img(img, path):
         ContentType='image/jpeg',
     )
 
+    #clean up 
+    del img 
+    del buffer
+
 def handler(event, context):
     #get cat pic urls
     if "cat_pic_urls" not in event: raise Exception("Error: cat pic url list not provided")  
