@@ -17,9 +17,11 @@ def handler(event, context):
 
     # Dget list of cat pic urls
     s3.download_file('cat-breed-data',cat_pic_urls, '/tmp/cat_pics.txt')
-    cat_pics = open('/tmp/cat_pics.txt').read().split()
+    cat_pics = open('/tmp/cat_pics.txt').read().split("\n")
 
-    print(cat_pics)
+    for line in cat_pics: 
+        url, breed = line.split(" ")
+        print("url={} class={}".format(url, breed)) 
 
     
 
