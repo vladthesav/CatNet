@@ -65,3 +65,7 @@ def get_img_urls_from_subreddit(subreddit, client=None, limit=50000):
   return img_urls
 
 
+cat_breed_subreddits =[("abyssinian","Abyssinians"), ("bengal","bengalcats"), ("birman","birmans"),
+                       ("bombay","BombayCat"),("british_shorthair","britishshorthair"),
+                       ("egyptian_mau","egyptianmau"), ("maine_coon","mainecoons"), ("persian", "persiancat"), 
+                       ("ragdoll","ragdolls"),("russian_blue","russianblue"),("siamese","Siamesecats"), ("sphynx","sphynx")]

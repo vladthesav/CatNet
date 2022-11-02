@@ -22,14 +22,21 @@ def handler(event, context):
     reddit_read_only = praw.Reddit(client_id=client_id, client_secret=client_secret,user_agent = "idk")
 
     #get other params
-    limit_per_subreddit = event["limit"] if "limit" in event else 50 
+    limit_per_subreddit = event["limit"] if "limit" in event else 50
 
-    #testing reddit api 
-    s=get_img_urls_from_subreddit("mainecoons", client=reddit_read_only, limit=limit_per_subreddit) 
-    print(s)
 
-    #upload data to s3 
-    s3.put_object(Body="testing testing 123", Bucket='cat-breed-data', Key='test.txt')
+    cat_breed_urls = ""
+
+    #get cat pic urls from cat breed subreddits
+    for class_name, subreddit in cat_breed_subreddits:
+        #get urls 
+        urls=get_img_urls_from_subreddit(subreddit, client=reddit_read_only, limit=limit_per_subreddit) 
+        for url in urls: cat_breed_urls += "{} {}\n".format(url, class_name)
+
+
+
+    #upload cat pic urls to s3
+    s3.put_object(Body=cat_breed_urls, Bucket='cat-breed-data', Key='reddit/cat_pic_urls_max_{}_per_subreddit.txt'.format(limit))
 
     
 
