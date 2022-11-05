@@ -40,7 +40,7 @@ def handler(event, context):
     for url in urls: cat_breed_urls += "{} {}\n".format(url, cat_breed)
 
 
-    output_s3_path = 'reddit/{}/cat_pic_urls_max_{}_per_subreddit.txt'.format(cat_breed,limit_per_subreddit) 
+    output_s3_path = 'reddit/{}/cat_pic_urls_max_{}.txt'.format(cat_breed,limit_per_subreddit) 
 
     #upload cat pic urls to s3
     s3.put_object(Body=cat_breed_urls, Bucket='cat-breed-data', Key=output_s3_path)

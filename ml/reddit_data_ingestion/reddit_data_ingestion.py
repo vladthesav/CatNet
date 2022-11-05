@@ -21,6 +21,8 @@ def parse_gallery(gallery, max_h=900, max_w=900):
   #OPUTPUT
   #urls = list of image urls 
 
+  if !hasattr(gallery, "media_metadata"): return None 
+
   #get post metadata
   metadata = gallery.media_metadata
   
@@ -58,6 +60,8 @@ def get_img_urls_from_subreddit(subreddit, client=None, limit=50000):
     elif "/gallery/" in url:
       for u in parse_gallery(submission):
         try:
+            #don't add to urls list if we cant parse
+            if u==None: continue
             img_urls.append(u)
         except Exception as e: 
             print(e)
