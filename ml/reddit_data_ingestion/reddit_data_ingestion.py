@@ -58,10 +58,11 @@ def get_img_urls_from_subreddit(subreddit, client=None, limit=50000):
     if "i.redd.it" in url:
       img_urls.append(url)
     elif "/gallery/" in url:
-      for u in parse_gallery(submission):
+      gallary_img_urls =  parse_gallery(submission)
+      #don't add to urls list if we cant parse
+      if gallary_img_urls==None: continue
+      for u in gallary_img_urls(submission):
         try:
-            #don't add to urls list if we cant parse
-            if u==None: continue
             img_urls.append(u)
         except Exception as e: 
             print(e)
