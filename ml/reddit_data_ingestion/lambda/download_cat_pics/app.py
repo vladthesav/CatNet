@@ -46,7 +46,7 @@ def handler(event, context):
 
         #if not end of file, get cat pic url and breed
         url, breed = line.split(" ")
-        print("url={} class={}".format(url, breed)) 
+        #print("url={} class={}".format(url, breed)) 
 
         try:
             img_id = parse_img_id(url)

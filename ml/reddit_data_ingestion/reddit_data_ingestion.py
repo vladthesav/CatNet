@@ -69,3 +69,5 @@ cat_breed_subreddits =[("abyssinian","Abyssinians"), ("bengal","bengalcats"), ("
                        ("bombay","BombayCat"),("british_shorthair","britishshorthair"),
                        ("egyptian_mau","egyptianmau"), ("maine_coon","mainecoons"), ("persian", "persiancat"), 
                        ("ragdoll","ragdolls"),("russian_blue","russianblue"),("siamese","Siamesecats"), ("sphynx","sphynx")]
+
+class_subreddit_mapping = {c:subreddit for c,subreddit in cat_breed_subreddits}
