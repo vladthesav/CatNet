@@ -21,7 +21,7 @@ def parse_gallery(gallery, max_h=900, max_w=900):
   #OPUTPUT
   #urls = list of image urls 
 
-  if !hasattr(gallery, "media_metadata"): return None 
+  if not hasattr(gallery, "media_metadata"): return None 
 
   #get post metadata
   metadata = gallery.media_metadata
