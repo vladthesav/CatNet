@@ -37,14 +37,14 @@ def handler(event, context):
     urls=get_img_urls_from_subreddit(cat_breed_subreddit, client=reddit_read_only, limit=limit_per_subreddit) 
 
     #add url and cat breed type to output file
-    for url in urls: cat_breed_urls += "{} {}\n".format(url, class_name)
+    for url in urls: cat_breed_urls += "{} {}\n".format(url, cat_breed)
 
 
-    output_s3_path = 'reddit/cat_pic_urls_max_{}_per_subreddit.txt'.format(limit_per_subreddit) 
+    output_s3_path = 'reddit/{}/cat_pic_urls_max_{}_per_subreddit.txt'.format(cat_breed,limit_per_subreddit) 
 
     #upload cat pic urls to s3
     s3.put_object(Body=cat_breed_urls, Bucket='cat-breed-data', Key=output_s3_path)
 
     
 
-    return "cat pic urls saved to : " + output_s3_path      
+    return "cat pic urls from {} saved to : {}".format( cat_breed_subreddit, output_s3_path)  
