@@ -6,7 +6,7 @@
 /application/test_api.py
 /application/ui_test.py
 
-#infra 
+#any infra code
 **/.terraform/**
 */.terraform/
 
@@ -15,3 +15,6 @@
 *.terraform.lock.hcl
 *.terraform.tfstate.lock.info
 *tfplan
+
+
+#airflow
