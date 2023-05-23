@@ -11,10 +11,10 @@ service docker restart
 #sudo chmod +x /usr/local/bin/docker-compose
 #docker-compose version
 
-
-
+#get code from github
+yum install git -y
+git clone --branch lambda-data-ingestion https://github.com/vladthesav/CatNet.git
 #get apache airflow container and run it
-#ty https://stackoverflow.com/questions/63658263/how-do-i-deploy-my-airflow-scheduler-to-aws-ec2
-docker pull puckel/docker-airflow
-#docker run -d -p 8080:8080 puckel/docker-airflow webserver
-docker run -d -p 8080:8080 -v dags:/usr/local/airflow/dags  puckel/docker-airflow webserver
+docker pull apache/airflow
+docker run -p 8080:8080 -v $(pwd)/dags:/opt/airflow/dags apache/airflow standalone > docker_logs
+
