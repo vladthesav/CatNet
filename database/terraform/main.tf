@@ -14,46 +14,54 @@ provider "aws" {
 }
 
 
-resource "aws_dynamodb_table" "cat_pic_images" {
-  name           = "CatPicMetadata"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 20
-  write_capacity = 20
-  hash_key       = "UserId"
-  range_key      = "GameTitle"
+resource "aws_security_group" "dumb_db_sg" {
+  name        = "dumb_db_sg"
+  description = "allow all tcp traffic rn - dont do this in prod"
 
-  attribute {
-    name = "UserId"
-    type = "S"
+
+  ingress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
-  attribute {
-    name = "GameTitle"
-    type = "S"
-  }
-
-  attribute {
-    name = "TopScore"
-    type = "N"
-  }
-
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
-  }
-
-  global_secondary_index {
-    name               = "GameTitleIndex"
-    hash_key           = "GameTitle"
-    range_key          = "TopScore"
-    write_capacity     = 10
-    read_capacity      = 10
-    projection_type    = "INCLUDE"
-    non_key_attributes = ["UserId"]
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
-    Name        = "dynamodb-table-1"
-    Environment = "production"
+    Name = "allow_everything"
+  }
+}
+
+
+resource "aws_db_instance" "default" {
+  allocated_storage    = 10
+  db_name              = "reddit_cat_pics"
+  engine               = "mysql"
+  engine_version       = "8.0.32"
+  instance_class       = "db.t3.micro"
+  username             = "foo"
+  password             = "foobarbaz"
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+  publicly_accessible  = true
+  vpc_security_group_ids = [aws_security_group.dumb_db_sg.id]
+
+}
+
+
+
+resource "aws_s3_bucket" "cat_pics" {
+  bucket = "cat-pics"
+
+  tags = {
+    Name        = "CATS CATS CATS"
   }
 }
